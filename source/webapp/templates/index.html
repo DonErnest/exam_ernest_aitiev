@@ -4,7 +4,7 @@
 {% block content %}
     <h1 class="text-center mt-5 mb-5">Гостевая книга</h1>
     <div class="row justify-content-center pb-3">
-        <a href="#" class = 'btn btn-outline-dark'><i class="fas fa-pen-nib"></i>Добавить запись</a>
+        <a href="{% url 'record_add' %}" class = 'btn btn-outline-dark'><i class="fas fa-pen-nib"></i>Добавить запись</a>
     </div>
     <div class = 'row justify-content-center'>
         {% for record in records %}
