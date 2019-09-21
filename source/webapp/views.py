@@ -4,6 +4,8 @@ from django.http import HttpResponseBadRequest
 from webapp.forms import RecordForm, SearchForm
 from webapp.models import Record, STATUS_DEFAULT
 
+import re
+
 
 def index_view(request, *args, **kwargs):
     records = Record.objects.filter(status=STATUS_DEFAULT).order_by('-created_at')
@@ -56,7 +58,17 @@ def search_record(request):
     search = SearchForm(data=request.GET)
     if search.is_valid():
         text = search.cleaned_data['search_text']
-        records = Record.objects.filter(author__icontains=text.lower())
-        return render(request, 'search_results.html', context={'records': records, 'text': text})
+        if bool(re.search('[\u0400-\u04FF]', text)):
+            records = Record.objects.all()
+            rus_records=[]
+            for record in records:
+                if text.lower() in record.author.lower():
+                    rus_records.append(record)
+            records = rus_records
+            return render(request, 'search_results.html', context={'records': records, 'text': text})
+        else:
+            records = Record.objects.filter(author__icontains=text.lower())
+            return render(request, 'search_results.html', context={'records': records, 'text': text})
     else:
         return render(request, 'search_results.html',context={'text': None})
+
