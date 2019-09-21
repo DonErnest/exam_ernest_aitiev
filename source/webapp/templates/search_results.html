@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Результаты поиска{% endblock %}
+
+{% block content %}
+    <h1 class="text-center mt-5 mb-5">Результаты поиска автора по запросу <strong>{{ text.search_text }}</strong></h1>
+    <div class="row justify-content-center pb-3">
+        <a href="{% url 'record_add' %}" class = 'btn btn-outline-dark'><i class="fas fa-pen-nib"></i>Добавить запись</a>
+    </div>
+    <div class = 'd-flex flex-column '>
+    {% if text is not None %}
+        {% if records %}
+            {% for record in records %}
+                <div class="card mb-3 align-self-center" style="width: 75%;">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">{{ record.author}}</h5>
+                    </div>
+                    <div class="card-body">
+
+                        <h6 class="card-subtitle mb-2 text-muted">{{ record.author_email }}</h6>
+                        <p class="card-text">{{ record.text|escape|linebreaks }}</p>
+                        <div class="btn-group">
+                            <a href="{% url 'record_edit' record.pk %}" class="btn btn-outline-dark card-link"><i class="fas fa-edit"></i> Обновить запись</a>
+                            <a href="{% url 'record_delete' record.pk %}" class="btn btn-outline-dark card-link"><i class="far fa-trash-alt"></i> Удалить запись</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <a href="{% url 'book_main' %}" class="btn btn-outline-dark align-self-center">Вернуться на главную</a>
+        {% else %}
+            <h3 class="text-center mt-5 mb-5">По вашему запросу записей не найдено</h3>
+            <a href="{% url 'book_main' %}" class="btn btn-outline-dark align-self-center">Вернуться на главную</a>
+        {% endif %}
+    {% else %}
+        <h3 class="text-center mt-5 mb-5">Ваш запрос пуст</h3>
+        <a href="{% url 'book_main' %}" class="btn btn-outline-dark align-self-center">Вернуться на главную</a>
+    {% endif %}
+    </div>
+{% endblock %}

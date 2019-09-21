@@ -8,3 +8,6 @@ class RecordForm(forms.Form):
     text = forms.CharField(max_length=3000, label='Текст', required=True, widget=widgets.Textarea)
 
 
+class SearchForm(forms.Form):
+    search_text = forms.CharField(max_length=40, required=True,
+                                  widget=widgets.TextInput(attrs={'placeholder': 'Search', 'type': 'search'}))

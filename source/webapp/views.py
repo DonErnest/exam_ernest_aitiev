@@ -1,13 +1,14 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponseBadRequest
 
-from webapp.forms import RecordForm
+from webapp.forms import RecordForm, SearchForm
 from webapp.models import Record, STATUS_DEFAULT
 
 
 def index_view(request, *args, **kwargs):
     records = Record.objects.filter(status=STATUS_DEFAULT).order_by('-created_at')
-    return render(request, 'index.html', context={'records': records})
+    search = SearchForm()
+    return render(request, 'index.html', context={'records': records, 'search': search})
 
 
 def add_record(request, *args, **kwargs):
@@ -49,3 +50,13 @@ def delete_record(request, pk, *args, **kwargs):
     elif request.method == 'POST':
         record.delete()
     return redirect('book_main')
+
+
+def search_record(request):
+    search = SearchForm(data=request.GET)
+    if search.is_valid():
+        text = search.cleaned_data['search_text']
+        records = Record.objects.filter(author__icontains=text.lower())
+        return render(request, 'search_results.html', context={'records': records, 'text': text})
+    else:
+        return render(request, 'search_results.html',context={'text': None})
