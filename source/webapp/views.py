@@ -22,3 +22,21 @@ def add_record(request, *args, **kwargs):
                                            author_email=form.cleaned_data['author_email'])
             return redirect('book_main')
         return render(request, 'add.html', context={'form': form})
+
+
+def edit_record(request, pk, *args, **kwargs):
+    record = get_object_or_404(Record, pk=pk)
+    if request.method == 'GET':
+        form = RecordForm(data={'author': record.author, 'author_email': record.author_email,
+                                'text': record.text})
+        return render(request, 'edit.html', context={'form': form, 'record': record})
+    elif request.method == 'POST':
+        form = RecordForm(data=request.POST)
+        if form.is_valid():
+            record.author = form.cleaned_data['author']
+            record.author_email = form.cleaned_data['author_email']
+            record.text = form.cleaned_data['text']
+            record.save()
+            return redirect('book_main')
+        else:
+            return render(request, 'edit.html', context={'form': form, 'record': record})

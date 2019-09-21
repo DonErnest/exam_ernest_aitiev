@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактировать запись{% endblock %}
+{% block content %}
+    <div class = "row justify-content-center pt-5 pb-5">
+        <div class="record w-50">
+            <h1 class = "text-center">Редактировать запись</h1>
+            <form method="POST" action="{% url 'record_add' %}" class=" pt-3 pb-3">
+                {% include 'partial/record_form.html' with button_text='Редактировать' %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
