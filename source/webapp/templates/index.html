@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Гостевая Книга{% endblock %}
+{% block content %}
+    <h1 class="text-center mt-5 mb-5">Гостевая книга</h1>
+    <div class="row justify-content-center pb-3">
+        <a href="#" class = 'btn btn-outline-dark'><i class="fas fa-pen-nib"></i>Добавить запись</a>
+    </div>
+    <div class = 'row justify-content-center'>
+        {% for record in records %}
+            <div class="card mb-3" style="width: 75%;">
+                <div class="card-header">
+                    <h5 class="card-title">{{ record.author}}</h5>
+                </div>
+                <div class="card-body">
+
+                    <h6 class="card-subtitle mb-2 text-muted">{{ record.author_email }}</h6>
+                    <p class="card-text">{{ record.text }}</p>
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-outline-dark card-link"><i class="fas fa-edit"></i> Обновить запись</a>
+                        <a href="#" class="btn btn-outline-dark card-link"><i class="far fa-trash-alt"></i> Удалить запись</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
