@@ -18,7 +18,7 @@
                     <p class="card-text">{{ record.text }}</p>
                     <div class="btn-group">
                         <a href="{% url 'record_edit' record.pk %}" class="btn btn-outline-dark card-link"><i class="fas fa-edit"></i> Обновить запись</a>
-                        <a href="#" class="btn btn-outline-dark card-link"><i class="far fa-trash-alt"></i> Удалить запись</a>
+                        <a href="{% url 'record_delete' record.pk %}" class="btn btn-outline-dark card-link"><i class="far fa-trash-alt"></i> Удалить запись</a>
                     </div>
                 </div>
             </div>

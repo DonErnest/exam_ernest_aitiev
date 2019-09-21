@@ -24,7 +24,7 @@ def add_record(request, *args, **kwargs):
         return render(request, 'add.html', context={'form': form})
 
 
-def edit_record(request, pk, *args, **kwargs):
+def edit_record(request, pk):
     record = get_object_or_404(Record, pk=pk)
     if request.method == 'GET':
         form = RecordForm(data={'author': record.author, 'author_email': record.author_email,
@@ -40,3 +40,12 @@ def edit_record(request, pk, *args, **kwargs):
             return redirect('book_main')
         else:
             return render(request, 'edit.html', context={'form': form, 'record': record})
+
+
+def delete_record(request, pk, *args, **kwargs):
+    record = get_object_or_404(Record, pk=pk)
+    if request.method == 'GET':
+        return render(request, 'delete.html', context={'record': record})
+    elif request.method == 'POST':
+        record.delete()
+    return redirect('book_main')
